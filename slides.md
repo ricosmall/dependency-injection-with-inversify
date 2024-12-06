@@ -59,10 +59,9 @@ A TypeScript-powered DI Container
 
 # Basic Concepts
 
-```ts
-import { injectable, inject, Container } from 'inversify';
+Define interfaces
 
-// Define interfaces
+```ts
 interface IWeapon {
   hit(): string;
 }
@@ -76,9 +75,12 @@ interface IWarrior {
 
 # Setting Up Inversify
 
+`injectable` & `inject`
+
 ```ts
 // Step 1: Import reflect-metadata
 import 'reflect-metadata';
+import { injectable, inject, Container } from 'inversify';
 
 // Step 2: Use decorators
 @injectable()
@@ -103,6 +105,8 @@ class Samurai implements IWarrior {
 ---
 
 # Container Configuration
+
+Bind and use
 
 ```ts
 // Create and configure container
