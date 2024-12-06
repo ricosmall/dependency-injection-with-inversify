@@ -313,6 +313,8 @@ app.use((req, res, next) => {
 
 # Advanced Features - Tagged Bindings
 
+<div class="max-h-[400px] overflow-y-auto">
+
 ```ts
 interface IWeapon {
   hit(): string;
@@ -329,13 +331,8 @@ class Shuriken implements IWeapon {
 }
 
 // Bind with tags
-container.bind<IWeapon>('IWeapon')
-  .to(Katana)
-  .whenTargetTagged('type', 'melee');
-
-container.bind<IWeapon>('IWeapon')
-  .to(Shuriken)
-  .whenTargetTagged('type', 'ranged');
+container.bind<IWeapon>('IWeapon').to(Katana).whenTargetTagged('type', 'melee');
+container.bind<IWeapon>('IWeapon').to(Shuriken).whenTargetTagged('type', 'ranged');
 
 // Usage with tags
 @injectable()
@@ -346,6 +343,8 @@ class Ninja {
   ) {}
 }
 ```
+
+</div>
 
 ---
 
@@ -557,8 +556,10 @@ class MockEmailService implements IEmailService {
 
 # Best Practices
 
-
 5. Leverage TypeScript Decorators
+
+<div class="max-h-[400px] overflow-y-auto">
+
 ```ts
 // Use custom decorators for common patterns
 function LogMethod() {
@@ -586,6 +587,8 @@ class UserService {
 }
 ```
 
+</div>
+
 ---
 
 # Testing with Inversify
@@ -607,6 +610,8 @@ expect(warrior.fight()).toBe('mock hit!');
 ---
 
 # Real-world Example
+
+<div class="max-h-[400px] overflow-y-auto">
 
 ```ts
 // User service example
@@ -631,6 +636,8 @@ class UserService {
   }
 }
 ```
+
+</div>
 
 
 ---
