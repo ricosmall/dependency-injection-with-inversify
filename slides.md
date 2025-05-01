@@ -12,54 +12,54 @@ drawings:
 css: unocss
 ---
 
-# Dependency Injection with Inversify.js
-A TypeScript-powered DI Container
+# 使用 Inversify.js 进行依赖注入
+基于 TypeScript 的 DI 容器
 
 ---
 
-# What is Dependency Injection?
+# 什么是依赖注入？
 
-- Design pattern that implements Inversion of Control (IoC)
-- Decouples object creation from object usage
-- Makes testing and maintenance easier
-- Promotes loose coupling between components
+- 实现控制反转 (IoC) 的设计模式
+- 将对象创建与对象使用解耦
+- 使测试和维护更加容易
+- 促进组件之间的松耦合
 
 ---
 
-# DI and Dependency Inversion Principle
+# DI 和依赖倒置原则
 
-- Dependency Inversion Principle (DIP) is the 'D' in SOLID
-- States that:
-  1. High-level modules should not depend on low-level modules
-  2. Both should depend on abstractions
-- Dependency Injection is a technique to achieve DIP
-- Example:
+- 依赖倒置原则 (DIP) 是 SOLID 中的 'D'
+- 它指出：
+  1. 高层模块不应该依赖于低层模块
+  2. 两者都应该依赖于抽象
+- 依赖注入是实现 DIP 的一种技术
+- 示例：
   ```ts
-  // Without DIP
+  // 不使用 DIP
   class UserService {
-    private database = new MySQLDatabase(); // Tightly coupled
+    private database = new MySQLDatabase(); // 紧耦合
   }
 
-  // With DIP and DI
+  // 使用 DIP 和 DI
   class UserService {
-    constructor(private database: IDatabase) {} // Loosely coupled
+    constructor(private database: IDatabase) {} // 松耦合
   }
   ```
 
 ---
 
-# Why Inversify.js?
+# 为什么选择 Inversify.js？
 
-- Lightweight IoC container for TypeScript
-- Decorators for easy configuration
-- Type-safe dependency injection
-- Works great with TypeScript's metadata reflection
+- 轻量级 TypeScript IoC 容器
+- 使用装饰器实现简单配置
+- 类型安全的依赖注入
+- 与 TypeScript 的元数据反射配合良好
 
 ---
 
-# Basic Concepts
+# 基本概念
 
-Define interfaces
+定义接口
 
 ```ts
 interface IWeapon {
@@ -73,9 +73,9 @@ interface IWarrior {
 
 ---
 
-# Setting Up Inversify
+# 设置 Inversify
 
-`injectable` & `inject`
+`injectable` 和 `inject`
 
 ```ts
 // Step 1: Import reflect-metadata
@@ -104,9 +104,9 @@ class Samurai implements IWarrior {
 
 ---
 
-# Container Configuration
+# 容器配置
 
-Bind and use
+绑定和使用
 
 ```ts
 // Create and configure container
@@ -123,9 +123,9 @@ console.log(warrior.fight()); // "cut!"
 
 ---
 
-# Binding Types - `.to()`
+# 绑定类型 - `.to()`
 
-1. Bind to Class (`.to`)
+1. 绑定到类 (`.to`)
 
 <div class="max-h-[400px] overflow-y-auto">
 
@@ -148,9 +148,9 @@ container.bind<ILogger>('ILogger').to(ConsoleLogger);
 
 ---
 
-# Binding Types - `.toConstantValue()`
+# 绑定类型 - `.toConstantValue()`
 
-2. Bind to Constant Value (`.toConstantValue`)
+2. 绑定到常量值 (`.toConstantValue`)
 
 <div class="max-h-[400px] overflow-y-auto">
 
@@ -162,9 +162,9 @@ container.bind<string>('API_URL').toConstantValue('https://api.example.com');
 
 ---
 
-# Binding Types - `.toDynamicValue()`
+# 绑定类型 - `.toDynamicValue()`
 
-3. Bind to Dynamic Value (`.toDynamicValue`)
+3. 绑定到动态值 (`.toDynamicValue`)
 
 <div class="max-h-[400px] overflow-y-auto">
 
@@ -178,9 +178,9 @@ container.bind<Date>('CurrentDate').toDynamicValue(() => {
 
 ---
 
-# Binding Types - `.toFactory()`
+# 绑定类型 - `.toFactory()`
 
-4. Bind to Factory (`.toFactory`)
+4. 绑定到工厂 (`.toFactory`)
 
 <div class="max-h-[400px] overflow-y-auto">
 
@@ -206,19 +206,19 @@ container.bind<IWeaponFactory>('IWeaponFactory').toFactory((context) => {
 
 ---
 
-# Scopes
+# 作用域
 
-InversifyJS provides three scope types:
+InversifyJS 提供三种作用域类型：
 
-- Singleton Scope - The same instance is shared across all requests
-- Transient Scope - A new instance is created for each request
-- Request Scope - The same instance is shared within a request context
+- 单例作用域 - 所有请求共享同一个实例
+- 瞬态作用域 - 每个请求创建一个新实例
+- 请求作用域 - 在请求上下文中共享同一个实例
 
 ---
 
-# Scopes - Singleton Scope
+# 作用域 - 单例作用域
 
-1. Singleton Scope
+1. 单例作用域
 
 ```ts
 // Same instance for all requests
@@ -240,9 +240,9 @@ console.log(db1.getId() === db2.getId()); // true
 
 ---
 
-# Scopes - Transient Scope
+# 作用域 - 瞬态作用域
 
-2. Transient Scope
+2. 瞬态作用域
 
 ```ts
 // New instance per request
@@ -264,9 +264,9 @@ console.log(handler1.getId() === handler2.getId()); // false
 
 ---
 
-# Scopes - Request Scope
+# 作用域 - 请求作用域
 
-3. Request Scope
+3. 请求作用域
 
 <div class="max-h-[400px] overflow-y-auto">
 
@@ -298,17 +298,17 @@ app.use((req, res, next) => {
 
 ---
 
-# Advanced Features
+# 高级特性
 
-1. Tagged Bindings - Use tags to differentiate between similar dependencies
-2. Named Bindings - Use named bindings for multiple implementations
-3. Contextual Bindings - Bind based on the injection context
-4. Circular Dependencies - Handle circular dependencies
-5. Middleware - Add middleware for cross-cutting concerns
+1. 标签绑定 - 使用标签区分相似依赖
+2. 命名绑定 - 为多个实现使用命名绑定
+3. 上下文绑定 - 基于注入上下文进行绑定
+4. 循环依赖 - 处理循环依赖
+5. 中间件 - 添加中间件处理横切关注点
 
 ---
 
-# Advanced Features - Tagged Bindings
+# 高级特性 - 标签绑定
 
 <div class="max-h-[400px] overflow-y-auto">
 
@@ -339,7 +339,7 @@ class Ninja {
 
 ---
 
-# Advanced Features - Named Bindings
+# 高级特性 - 命名绑定
 
 ```ts
 // Bind with names
@@ -363,7 +363,7 @@ class Ninja {
 
 ---
 
-# Advanced Features - Contextual Bindings
+# 高级特性 - 上下文绑定
 
 ```ts
 interface IWeapon {
@@ -392,7 +392,7 @@ container.bind<IWeapon>('IWeapon').to(TrainingKatana).when((request) => {
 
 ---
 
-# Advanced Features - Circular Dependencies
+# 高级特性 - 循环依赖
 
 ```ts
 interface IA { b: IB; doA(): string; }
@@ -417,7 +417,7 @@ container.bind<IB>('IB').to(B).inSingletonScope();
 
 ---
 
-# Advanced Features - Middleware
+# 高级特性 - 中间件
 
 ```ts
 // Create middleware
@@ -440,19 +440,19 @@ const warrior = container.get<IWarrior>('IWarrior');
 
 ---
 
-# Best Practices
+# 最佳实践
 
-1. Use meaningful identifiers
-2. Keep container configuration centralized
-3. Avoid service locator pattern
-4. Use interfaces for better abstraction
-5. Leverage TypeScript decorators
+1. 使用有意义的标识符
+2. 保持容器配置集中
+3. 避免服务定位器模式
+4. 使用接口实现更好的抽象
+5. 利用 TypeScript 装饰器
 
 ---
 
-# Best Practices
+# 最佳实践
 
-1. Use Meaningful Identifiers
+1. 使用有意义的标识符
 
 ```ts
 // Bad ❌
@@ -464,9 +464,9 @@ container.bind<ILogger>('ILogger').to(ConsoleLogger);
 
 ---
 
-# Best Practices
+# 最佳实践
 
-2. Centralize Container Configuration
+2. 中心化容器配置
 
 ```ts
 // container.ts
@@ -487,15 +487,16 @@ AuthModule.configure(container);
 
 ---
 
-# Best Practices
+# 最佳实践
 
 
-3. Avoid Service Locator Pattern
+3. 避免服务定位器模式
+
 ```ts
 // Bad ❌
 class UserService {
   doSomething() {
-    const db = container.get<IDatabase>('IDatabase'); // Direct container usage
+    const db = container.get<IDatabase>('IDatabase'); // 直接使用容器
   }
 }
 
@@ -510,42 +511,43 @@ class UserService {
 
 ---
 
-# Best Practices
+# 最佳实践
 
 
-4. Use Interfaces for Better Abstraction
+4. 使用接口实现更好的抽象
+
 ```ts
-// Define clear interfaces
+// 定义清晰的接口
 interface IEmailService {
   sendEmail(to: string, subject: string, body: string): Promise<void>;
 }
 
-// Multiple implementations
+// 多种实现
 @injectable()
 class SmtpEmailService implements IEmailService {
   async sendEmail(to: string, subject: string, body: string): Promise<void> {
-    // SMTP implementation
+    // SMTP 实现
   }
 }
 
 @injectable()
 class MockEmailService implements IEmailService {
   async sendEmail(to: string, subject: string, body: string): Promise<void> {
-    // Test implementation
+    // 测试实现
   }
 }
 ```
 
 --- 
 
-# Best Practices
+# 最佳实践
 
-5. Leverage TypeScript Decorators
+5. 利用 TypeScript 装饰器
 
 <div class="max-h-[400px] overflow-y-auto">
 
 ```ts
-// Use custom decorators for common patterns
+// 为常见模式使用自定义装饰器
 function LogMethod() {
   return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
     const original = descriptor.value;
@@ -562,7 +564,7 @@ function LogMethod() {
 class UserService {
   @LogMethod()
   async createUser(userData: UserData): Promise<User> {
-    // Implementation
+    // 实现
   }
 }
 ```
@@ -571,10 +573,10 @@ class UserService {
 
 ---
 
-# Testing with Inversify
+# 使用 Inversify 进行测试
 
 ```ts
-// Easy mocking
+// 简单模拟
 const mockWeapon: IWeapon = {
   hit: () => 'mock hit!'
 };
@@ -582,19 +584,19 @@ const mockWeapon: IWeapon = {
 container.rebind<IWeapon>('IWeapon')
   .toConstantValue(mockWeapon);
 
-// Test your components
+// 测试你的组件
 const warrior = container.get<IWarrior>('IWarrior');
 expect(warrior.fight()).toBe('mock hit!');
 ```
 
 ---
 
-# Real-world Example
+# 真实世界示例
 
 <div class="max-h-[400px] overflow-y-auto">
 
 ```ts
-// User service example
+// 用户服务示例
 interface IUserRepository {
   findById(id: string): Promise<User>;
 }
@@ -622,12 +624,12 @@ class UserService {
 
 ---
 
-# Real-world Example: E-commerce System
+# 真实世界示例：电子商务系统
 
 <div class="max-h-[400px] overflow-y-auto">
 
 ```ts
-// Domain Interfaces
+// 领域接口
 interface IProduct {
   id: string;
   name: string;
@@ -641,7 +643,7 @@ interface IOrder {
   total: number;
 }
 
-// Repository Interfaces
+// 数据仓库接口
 interface IProductRepository {
   findById(id: string): Promise<IProduct>;
   findByCategory(category: string): Promise<IProduct[]>;
@@ -653,7 +655,7 @@ interface IOrderRepository {
   findByUserId(userId: string): Promise<IOrder[]>;
 }
 
-// Service Interfaces
+// 服务接口
 interface IPaymentService {
   processPayment(amount: number, userId: string): Promise<boolean>;
 }
@@ -662,7 +664,7 @@ interface INotificationService {
   notifyUser(userId: string, message: string): Promise<void>;
 }
 
-// Implementation Example
+// 实现示例
 @injectable()
 class OrderService {
   constructor(
@@ -674,28 +676,28 @@ class OrderService {
 
   @LogMethod()
   async createOrder(userId: string, productIds: string[]): Promise<IOrder> {
-    // Fetch products
+    // 获取产品
     const products = await Promise.all(
       productIds.map(id => this.productRepo.findById(id))
     );
 
-    // Calculate total
+    // 计算总额
     const total = products.reduce((sum, product) => sum + product.price, 0);
 
-    // Process payment
+    // 处理支付
     const paymentSuccess = await this.paymentService.processPayment(total, userId);
     if (!paymentSuccess) {
       throw new Error('Payment failed');
     }
 
-    // Create order
+    // 创建订单
     const order = await this.orderRepo.create({
       userId,
       products,
       total
     });
 
-    // Notify user
+    // 通知用户
     await this.notificationService.notifyUser(
       userId,
       `Order ${order.id} created successfully!`
@@ -705,10 +707,10 @@ class OrderService {
   }
 }
 
-// Container Configuration
+// 容器配置
 const container = new Container();
 
-// Repositories
+// 数据仓库
 container.bind<IProductRepository>('IProductRepository')
   .to(PostgresProductRepository)
   .inSingletonScope();
@@ -717,7 +719,7 @@ container.bind<IOrderRepository>('IOrderRepository')
   .to(PostgresOrderRepository)
   .inSingletonScope();
 
-// Services
+// 服务
 container.bind<IPaymentService>('IPaymentService')
   .to(StripePaymentService)
   .inSingletonScope();
@@ -730,30 +732,30 @@ container.bind<OrderService>('OrderService')
   .to(OrderService)
   .inSingletonScope();
 
-// Usage
+// 使用
 const orderService = container.get<OrderService>('OrderService');
 const order = await orderService.createOrder('user123', ['prod1', 'prod2']);
 ```
 
-This real-world example demonstrates:
-- Clear interface definitions
-- Proper dependency injection
-- Service composition
-- Repository pattern
-- Error handling
-- Async operations
-- Logging decorator usage
-- Container configuration
+这个真实世界示例展示了：
+- 清晰的接口定义
+- 适当的依赖注入
+- 服务组合
+- 仓储模式
+- 错误处理
+- 异步操作
+- 日志装饰器使用
+- 容器配置
 
 </div>
 
 ---
 
-# Thank You!
+# 谢谢！
 
-Questions?
+还有问题吗？
 
-Resources:
-- [Inversify Documentation](https://inversify.io/)
-- [GitHub Repository](https://github.com/inversify/InversifyJS)
-- [TypeScript Decorators](https://www.typescriptlang.org/docs/handbook/decorators.html)
+资源：
+- [Inversify 文档](https://inversify.io/)
+- [GitHub 仓库](https://github.com/inversify/InversifyJS)
+- [TypeScript 装饰器](https://www.typescriptlang.org/docs/handbook/decorators.html)
