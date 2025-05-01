@@ -285,14 +285,11 @@ class RequestLogger {
   }
 }
 
-container.bind<RequestLogger>('Logger')
-  .to(RequestLogger)
-  .inRequestScope();
+container.bind<RequestLogger>('Logger').to(RequestLogger).inRequestScope();
 
 // Usage in request middleware
 app.use((req, res, next) => {
-  container.bind<IRequestContext>('Context')
-    .toConstantValue({ id: req.id, timestamp: new Date() });
+  container.bind<IRequestContext>('Context').toConstantValue({ id: req.id, timestamp: new Date() });
   next();
 });
 ```
@@ -316,19 +313,13 @@ app.use((req, res, next) => {
 <div class="max-h-[400px] overflow-y-auto">
 
 ```ts
-interface IWeapon {
-  hit(): string;
-}
+interface IWeapon { hit(): string; }
 
 @injectable()
-class Katana implements IWeapon {
-  hit() { return 'cut!'; }
-}
+class Katana implements IWeapon { hit() { return 'cut!'; } }
 
 @injectable()
-class Shuriken implements IWeapon {
-  hit() { return 'throw!'; }
-}
+class Shuriken implements IWeapon { hit() { return 'throw!'; } }
 
 // Bind with tags
 container.bind<IWeapon>('IWeapon').to(Katana).whenTargetTagged('type', 'melee');
@@ -404,15 +395,8 @@ container.bind<IWeapon>('IWeapon').to(TrainingKatana).when((request) => {
 # Advanced Features - Circular Dependencies
 
 ```ts
-interface IA {
-  b: IB;
-  doA(): string;
-}
-
-interface IB {
-  a: IA;
-  doB(): string;
-}
+interface IA { b: IB; doA(): string; }
+interface IB { a: IA; doB(): string; }
 
 @injectable()
 class A implements IA {
@@ -563,11 +547,7 @@ class MockEmailService implements IEmailService {
 ```ts
 // Use custom decorators for common patterns
 function LogMethod() {
-  return function (
-    target: any,
-    propertyKey: string,
-    descriptor: PropertyDescriptor
-  ) {
+  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
     const original = descriptor.value;
     descriptor.value = async function (...args: any[]) {
       console.log(`Calling ${propertyKey} with:`, args);
